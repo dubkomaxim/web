@@ -37,8 +37,11 @@
 			if (1) {
 				
 				var jsn = JSON.parse(xhr.responseText)
-				if (jsn.hasOwnProperty(''))
+				if (jsn.hasOwnProperty('')) {
 					document.getElementById("err") = jsn.error;
+					return;
+				}
+				
 				var list = jsn.results[0].resultSet;
 				console.log(list);
 				
