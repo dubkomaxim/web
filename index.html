@@ -2,18 +2,33 @@
 <html>
 
 <body style = "text-align:center;">
-	
+	<h1> Заголовок</h1>
 	<input type="text" id="inp">
 	<button onclick = "send()">
 		click here
 	</button>
-	<span id="err"> </span>
-	<br><br>
 	
-	<table id="table" align = "center" border="1px"></table>
+	
+	<button onclick = "reset()">
+		reset history
+	</button>
+	
+	<div id="history" style="background-color:#FFDDFF;"> 
+		<div>SELECT * FROM MAX</div>
+	</div> 
+	
+	<div id="err" style="background-color:#FFFFDD;"> </div>
+		
+	
+	
+	
+	<table id="table" style="background-color:#DDFFFF;" align = "center" border="1px"></table>
 	
 	<script>
 		let xhr;
+		function reset(){
+			document.getElementById("history").innerHTML = "";
+		}
 		function send()  {
 			var str = document.getElementById("inp").value;
 			console.log(str);
@@ -29,18 +44,24 @@
 			xhr.open("POST", url, true);
 			xhr.setRequestHeader("Content-Type", "application/json");
 			
+			document.getElementById('history').innerHTML += "<div>" + str + "</div>";
+			
 			xhr.onreadystatechange = printResponse;
 			 xhr.send(JSON.stringify(body));
 		}
 		
 		function printResponse() {
-			if (1 || xhr.readyState != 4 || xhr.status != 200 || !JSON.parse(xhr.responseText).hasOwnProperty('results')) {
-				document.getElementById("err").innerHTML = jsn.error;
+		
+			if (xhr.status != 200) {
+				document.getElementById("err").innerHTML = xhr.responseText;
+				document.getElementById("table").innerHTML = "";
 				return;
-			}
-
+			} else document.getElementById("err").innerHTML = "";
+			
+			
+			
 			var list = JSON.parse(xhr.responseText).results[0].resultSet;
-			console.log(list);
+			console.log(JSON.parse(xhr.responseText));
 
 			var cols = [];
 			console.log(list.length);
