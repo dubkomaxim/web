@@ -7,7 +7,7 @@
 	<button onclick = "send()">
 		click here
 	</button>
-	
+	<span id="err"> </span>
 	<br><br>
 	
 	<table id="table" align = "center" border="1px"></table>
@@ -34,8 +34,12 @@
 		}
 		
 		function printResponse() {
-			if (xhr.readyState === 4 && xhr.status === 200) {
-				var list = JSON.parse(xhr.responseText).results[0].resultSet;
+			if (xhr.readyState === 4) {
+				
+				var jsn = JSON.parse(xhr.responseText)
+				if (jsn.hasOwnProperty(''))
+					document.getElementById("err") = jsn.error;
+				var list = jsn.results[0].resultSet;
 				console.log(list);
 				
 				var cols = [];
