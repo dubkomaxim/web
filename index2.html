@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+
+<body style = "text-align:center;">
+	
+	<input type="text" id="inp">
+	<button onclick = "send()">
+		click here
+	</button>
+	
+	<br><br>
+	
+	<table id="table" align = "center" border="1px"></table>
+	
+	<script>
+		let xhr;
+		function send()  {
+			var str = document.getElementById("inp").value;
+			console.log(str);
+			const body = {
+			  "transaction": [
+			  {
+				"query": str
+			  },
+			 ]};
+			xhr = new XMLHttpRequest();
+			//var url = "http://176.124.209.11:12321/testDb";
+			var url = "https://v1289560.hosted-by-vdsina.ru/testDb";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			
+			xhr.onreadystatechange = printResponse;
+			 xhr.send(JSON.stringify(body));
+		}
+		
+		function printResponse() {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+				var list = JSON.parse(xhr.responseText).results[0].resultSet;
+				console.log(list);
+				
+				var cols = [];
+				console.log(list.length);
+				for (var i = 0; i < list.length; i++) {
+					for (var k in list[i]) {
+						if (cols.indexOf(k) === -1) {
+							cols.push(k);
+						}
+					}
+				}
+				var table = document.createElement("table");
+				var tr = table.insertRow(-1);
+				
+				for (var i = 0; i < cols.length; i++) {
+					var theader = document.createElement("th");
+					theader.innerHTML = cols[i];
+					tr.appendChild(theader);
+				}
+				
+				for (var i = 0; i < list.length; i++) {
+					trow = table.insertRow(-1);
+					for (var j = 0; j < cols.length; j++) {
+						var cell = trow.insertCell(-1);
+						cell.innerHTML = list[i][cols[j]];
+					}
+				}
+				
+				var el = document.getElementById("table");
+				el.innerHTML = "";
+				el.appendChild(table);
+			}
+		}
+				
+	</script>
+</body>
+
+</html>
