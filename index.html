@@ -35,7 +35,7 @@
 		
 		function printResponse() {
 			if (xhr.readyState != 4 || xhr.status != 200 || !JSON.parse(xhr.responseText).hasOwnProperty('results')) {
-				document.getElementById("err").innerHtml = jsn.error;
+				document.getElementById("err").innerHTML = jsn.error;
 				return;
 			}
 
