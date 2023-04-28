@@ -34,7 +34,7 @@
 		}
 		
 		function printResponse() {
-			if (xhr.readyState != 4 || xhr.status != 200 || !JSON.parse(xhr.responseText).hasOwnProperty('results')) {
+			if (1 || xhr.readyState != 4 || xhr.status != 200 || !JSON.parse(xhr.responseText).hasOwnProperty('results')) {
 				document.getElementById("err").innerHTML = jsn.error;
 				return;
 			}
